@@ -22,9 +22,9 @@ public class OnionProxyManager {
 	
 	/**
 	 * Spawns the Tor proxy process.
-	 * @throws IOException 
+	 * @throws IOException Thrown if the Tor process cannot be spawned.
 	 * **/
-	public static void start() throws IOException{
+	public static void start() throws IOException {
 		tor_process = Runtime.getRuntime().exec("./Tor/tor.exe");
 		proxy = new Proxy(Proxy.Type.SOCKS, new InetSocketAddress("127.0.0.1", 9050));
 	}
@@ -42,6 +42,7 @@ public class OnionProxyManager {
 	 * @param address The destination address.
 	 * @param port The destination port.
 	 * @return The opened socket ready for read / write operations.
+	 * @throws IOException On Socket.connect() failure.
 	 * **/
 	public static Socket openSocket(String address, int port) throws IOException{
 		Socket socket = new Socket(proxy);
@@ -55,6 +56,7 @@ public class OnionProxyManager {
 	 * @param address The destination address.
 	 * @param port The destination port.
 	 * @return The opened socket ready for read / write operations.
+	 * @throws IOException On Socket.connect() failure.
 	 * **/
 	public static SSLSocket openSSLSocket(String address, int port) throws IOException{
 		Socket socket = new Socket(proxy);
