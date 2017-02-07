@@ -9,7 +9,7 @@ import java.net.Socket;
 
 import org.jtor.OnionProxyManager;
 
-public class Test {
+public class ClearwebSSLSocketTest {
 
 	public static void main(String[] args) {
 		try {

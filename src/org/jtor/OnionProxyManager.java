@@ -19,6 +19,8 @@ public class OnionProxyManager {
 	 * Proxy
 	 * **/
 	private static Proxy proxy;
+	private static final String proxy_host = "127.0.0.1";
+	private static final int proxy_port = 9050;
 	
 	/**
 	 * Spawns the Tor proxy process.
@@ -26,7 +28,7 @@ public class OnionProxyManager {
 	 * **/
 	public static void start() throws IOException {
 		tor_process = Runtime.getRuntime().exec("./Tor/tor.exe");
-		proxy = new Proxy(Proxy.Type.SOCKS, new InetSocketAddress("127.0.0.1", 9050));
+		proxy = new Proxy(Proxy.Type.SOCKS, new InetSocketAddress(proxy_host, proxy_port));
 	}
 	
 	/**
@@ -59,11 +61,9 @@ public class OnionProxyManager {
 	 * @throws IOException On Socket.connect() failure.
 	 * **/
 	public static SSLSocket openSSLSocket(String address, int port) throws IOException{
-		Socket socket = new Socket(proxy);
-		InetSocketAddress addr = InetSocketAddress.createUnresolved(address, port);
-		socket.connect(addr);
+		Socket socket = openSocket(address, port);
 		
-		SSLSocket ssl_socket = (SSLSocket) ((SSLSocketFactory)SSLSocketFactory.getDefault()).createSocket(socket, "127.0.0.1", 9050, true);
+		SSLSocket ssl_socket = (SSLSocket) ((SSLSocketFactory)SSLSocketFactory.getDefault()).createSocket(socket, proxy_host, proxy_port, true);
 		
 		return ssl_socket;
 	}
